@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System - Nidaamka Maamulka Isbitaalka</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- CSS Style File -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Mobile Overlay Backdrop -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Main Container -->
+    <div class="app-layout">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-hospital-user"></i>
+                </div>
+                <div class="brand-text">
+                    <h2>Isbitaalka Rajada</h2>
+                    <span>Nidaamka Maamulka</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <p class="menu-label">MENU-GA WEYN</p>
+                <ul>
+                    <li class="menu-item active" data-section="dashboardSection">
+                        <a href="#dashboard">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="patientsSection">
+                        <a href="#bukaannada">
+                            <i class="fa-solid fa-hospital-user"></i>
+                            <span>Bukaannada</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="doctorsSection">
+                        <a href="#dhakhaatiirta">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            <span>Dhakhaatiirta</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="appointmentsSection">
+                        <a href="#ballamaha">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Ballamaha</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="departmentsSection">
+                        <a href="#qaybaha">
+                            <i class="fa-solid fa-hospital"></i>
+                            <span>Qaybaha Isbitaalka</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="billingSection">
+                        <a href="#lacag-bixinta">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                            <span>Lacag-bixinta Bukaanka</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="payrollSection">
+                        <a href="#mushaharka">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <span>Mushaharka Dhakhaatiirta</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="financeSection">
+                        <a href="#xisaabaadka">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Dakhliga & Xisaabaadka</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Nidaamku wuu shaqaynayaa</span>
+                </div>
+                <button id="btnResetData" class="btn-reset" title="Dib u soo celi xogtii tusaalaha ahayd">
+                    <i class="fa-solid fa-arrow-rotate-right"></i> Dib u cusboonaysii Xogta
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="main-wrapper">
+            
+            <!-- TOP NAVBAR -->
+            <header class="top-navbar">
+                <div class="navbar-left">
+                    <button id="sidebarToggle" class="btn-menu-toggle" aria-label="Fur Menu-ga">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="page-title-box">
+                        <h1 id="currentSectionTitle">Dashboard</h1>
+                        <p class="subtitle">Kusoo dhowow xarunta maamulka Isbitaalka Rajada</p>
+                    </div>
+                </div>
+
+                <div class="navbar-right">
+                    <div class="current-date-box">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <span id="liveDate">Maanta</span>
+                    </div>
+
+                    <div class="user-profile">
+                        <div class="profile-avatar">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <div class="profile-info">
+                            <strong>Maamulaha</strong>
+                            <small>Xafiiska Guud</small>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- TOAST NOTIFICATION CONTAINER -->
+            <div id="toastContainer" class="toast-container"></div>
+
+            <!-- PAGE CONTENTS -->
+            <main class="page-content">
+
+                <!-- 1. DASHBOARD SECTION -->
+                <section id="dashboardSection" class="content-section active">
+                    
+                    <!-- Stats Cards Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card stat-blue">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-bed-pulse"></i>
+                            </div>
+                            <div class="stat-data">
+                                <p class="stat-title">Tirada Guud ee Bukaannada</p>
+                                <h3 id="statTotalPatients" class="stat-number">0</h3>
+                                <span class="stat-badge"><i class="fa-solid fa-arrow-up"></i> Bukaanno diiwaangashan</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-green">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-user-doctor"></i>
+                            </div>
+                            <div class="stat-data">
+                                <p class="stat-title">Tirada Guud ee Dhakhaatiirta</p>
+                                <h3 id="statTotalDoctors" class="stat-number">0</h3>
+                                <span class="stat-badge badge-green"><i class="fa-solid fa-stethoscope"></i> Dhakhaatiir diyaar ah</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-cyan">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+                            <div class="stat-data">
+                                <p class="stat-title">Tirada Ballamaha</p>
+                                <h3 id="statTotalAppointments" class="stat-number">0</h3>
+                                <span class="stat-badge badge-cyan"><i class="fa-solid fa-clock"></i> Ballamo qorshaysan</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-purple">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-hospital"></i>
+                            </div>
+                            <div class="stat-data">
+                                <p class="stat-title">Tirada Qaybaha Isbitaalka</p>
+                                <h3 id="statTotalDepartments" class="stat-number">0</h3>
+                                <span class="stat-badge badge-purple"><i class="fa-solid fa-house-medical"></i> Waaxyo furan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financial Quick Stats Row -->
+                    <div class="finance-overview-banner">
+                        <div class="finance-banner-header">
+                            <div>
+                                <h3><i class="fa-solid fa-sack-dollar text-success"></i> Xisaabaadka & Dakhliga Isbitaalka (Hadda)</h3>
+                                <p>Dulmar degdeg ah oo ku saabsan lacagaha soo xarooday, mushaharka baxay, iyo faa'iidada saafiga ah.</p>
+                            </div>
+                            <button class="btn btn-sm btn-outline-white" onclick="navigateTo('financeSection')">
+                                <i class="fa-solid fa-chart-line"></i> Faahfaahinta Dakhliga
+                            </button>
+                        </div>
+                        <div class="finance-stats-grid">
+                            <div class="finance-stat-item">
+                                <span class="f-label"><i class="fa-solid fa-arrow-trend-up text-success"></i> Dakhliga Soo Xarooday</span>
+                                <h2 id="dashTotalRevenue" class="f-value text-success">$0.00</h2>
+                                <small>Lacagta bukaannada ka timid</small>
+                            </div>
+                            <div class="finance-stat-item">
+                                <span class="f-label"><i class="fa-solid fa-arrow-trend-down text-danger"></i> Kharashka / Mushaharka</span>
+                                <h2 id="dashTotalExpenses" class="f-value text-danger">$0.00</h2>
+                                <small>Mushaharka dhakhaatiirta la bixiyay</small>
+                            </div>
+                            <div class="finance-stat-item highlight">
+                                <span class="f-label"><i class="fa-solid fa-scale-balanced"></i> Faa'iidada Saafiga ah (Net Profit)</span>
+                                <h2 id="dashNetProfit" class="f-value">$0.00</h2>
+                                <small id="dashProfitStatusBadge">Xisaabinta hadda</small>
+                            </div>
+                            <div class="finance-stat-item">
+                                <span class="f-label"><i class="fa-solid fa-clock-rotate-left text-warning"></i> Lacagaha Qabyada ah</span>
+                                <h2 id="dashPendingReceivables" class="f-value text-warning">$0.00</h2>
+                                <small>Lacagta bukaannada dhiman</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Shortcuts Action Bar -->
+                    <div class="quick-actions-bar">
+                        <h3><i class="fa-solid fa-bolt"></i> Tallaabooyinka Degdegga ah:</h3>
+                        <div class="quick-buttons">
+                            <button class="btn btn-primary" onclick="navigateTo('patientsSection', true)">
+                                <i class="fa-solid fa-user-plus"></i> Diiwaangeli Bukaan
+                            </button>
+                            <button class="btn btn-success" onclick="navigateTo('appointmentsSection', true)">
+                                <i class="fa-solid fa-calendar-plus"></i> Qabso Ballan
+                            </button>
+                            <button class="btn btn-warning" onclick="navigateTo('billingSection', true)">
+                                <i class="fa-solid fa-file-invoice-dollar"></i> Lacag-bixin Cusub
+                            </button>
+                            <button class="btn btn-outline" onclick="navigateTo('payrollSection', true)">
+                                <i class="fa-solid fa-money-bill-wave"></i> Bixi Mushahar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Dual Columns (Recent Patients & Recent Appointments) -->
+                    <div class="dashboard-columns">
+                        
+                        <!-- Recent Patients Widget -->
+                        <div class="card dashboard-card">
+                            <div class="card-header">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-hospital-user text-primary"></i>
+                                    <h4>Bukaannadii Ugu Dambeeyay</h4>
+                                </div>
+                                <button class="btn btn-sm btn-link" onclick="navigateTo('patientsSection')">
+                                    Dhammaan Eeg <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Magaca</th>
+                                                <th>Da'da</th>
+                                                <th>Jinsiga</th>
+                                                <th>Telefoonka</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashRecentPatientsBody">
+                                            <!-- Dynamically filled by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Appointments Widget -->
+                        <div class="card dashboard-card">
+                            <div class="card-header">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-calendar-check text-success"></i>
+                                    <h4>Ballamaha Soo Socda</h4>
+                                </div>
+                                <button class="btn btn-sm btn-link" onclick="navigateTo('appointmentsSection')">
+                                    Dhammaan Eeg <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Bukaanka</th>
+                                                <th>Dhakhtarka</th>
+                                                <th>Taariikhda</th>
+                                                <th>Xaaladda</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashRecentAppointmentsBody">
+                                            <!-- Dynamically filled by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+                <!-- 2. BUKAANNADA (PATIENTS) SECTION -->
+                <section id="patientsSection" class="content-section">
+                    
+                    <div class="section-header-banner">
+                        <div>
+                            <h2>Maamulka Bukaannada</h2>
+                            <p>Diiwaangeli bukaan cusub, wax ka beddel ama tirtir xogta bukaannada jira.</p>
+                        </div>
+                        <button id="btnTogglePatientForm" class="btn btn-primary">
+                            <i class="fa-solid fa-plus"></i> Diiwaangeli Bukaan Cusub
+                        </button>
+                    </div>
+
+                    <!-- Registration / Edit Form Box (Collapsible / Toggleable) -->
+                    <div id="patientFormContainer" class="form-container-box">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-id-card text-primary"></i>
+                                    <h4 id="patientFormTitle">Diiwaangelinta Bukaanka Cusub</h4>
+                                </div>
+                                <button type="button" class="btn-close-form" id="btnClosePatientForm" title="Xir foomka">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <form id="patientForm" novalidate>
+                                    <input type="hidden" id="patientEditId">
+
+                                    <div class="form-grid">
+                                        <!-- Magaca Bukaanka -->
+                                        <div class="form-group">
+                                            <label for="patientName" class="form-label required">
+                                                <i class="fa-solid fa-user"></i> Magaca Bukaanka
+                                            </label>
+                                            <input type="text" id="patientName" class="form-control" placeholder="Tusaale: Axmed Cabdullaahi Maxamed" required>
+                                            <span class="error-msg" id="patientNameError"></span>
+                                        </div>
+
+                                        <!-- Da'da -->
+                                        <div class="form-group">
+                                            <label for="patientAge" class="form-label required">
+                                                <i class="fa-solid fa-hashtag"></i> Da'da (Sannadood)
+                                            </label>
+                                            <input type="number" id="patientAge" class="form-control" placeholder="Tusaale: 28" min="1" max="120" required>
+                                            <span class="error-msg" id="patientAgeError"></span>
+                                        </div>
+
+                                        <!-- Jinsiga -->
+                                        <div class="form-group">
+                                            <label for="patientGender" class="form-label required">
+                                                <i class="fa-solid fa-venus-mars"></i> Jinsiga
+                                            </label>
+                                            <select id="patientGender" class="form-control" required>
+                                                <option value="">-- Dooro Jinsiga --</option>
+                                                <option value="Lab">Lab (Male)</option>
+                                                <option value="Dheddig">Dheddig (Female)</option>
+                                            </select>
+                                            <span class="error-msg" id="patientGenderError"></span>
+                                        </div>
+
+                                        <!-- Lambarka Telefoonka -->
+                                        <div class="form-group">
+                                            <label for="patientPhone" class="form-label required">
+                                                <i class="fa-solid fa-phone"></i> Lambarka Telefoonka
+                                            </label>
+                                            <input type="tel" id="patientPhone" class="form-control" placeholder="Tusaale: 0612345678 ama 25261..." required>
+                                            <span class="error-msg" id="patientPhoneError"></span>
+                                        </div>
+
+                                        <!-- Cinwaanka -->
+                                        <div class="form-group full-width">
+                                            <label for="patientAddress" class="form-label required">
+                                                <i class="fa-solid fa-location-dot"></i> Cinwaanka
+                                            </label>
+                                            <input type="text" id="patientAddress" class="form-control" placeholder="Tusaale: Degmada Hodan, Muqdisho" required>
+                                            <span class="error-msg" id="patientAddressError"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" id="btnSubmitPatient" class="btn btn-primary btn-lg">
+                                            <i class="fa-solid fa-user-plus"></i> Diiwaangeli Bukaanka
+                                        </button>
+                                        <button type="button" id="btnCancelPatientEdit" class="btn btn-secondary btn-lg" style="display: none;">
+                                            <i class="fa-solid fa-xmark"></i> Ka Noqo
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Patients Table Card -->
+                    <div class="card mt-4">
+                        <div class="card-header flex-between flex-wrap">
+                            <div class="card-header-title">
+                                <i class="fa-solid fa-users text-primary"></i>
+                                <h4>Jadwalka Xogta Bukaannada (<span id="patientCountBadge">0</span>)</h4>
+                            </div>
+
+                            <!-- Search Box -->
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                <input type="text" id="patientSearchInput" class="search-input" placeholder="Ku raadi Magac ama Lambarka Telefoonka...">
+                                <button id="btnClearSearch" class="btn-clear-search" title="Tirtir qoraalka raadinta">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table" id="patientsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Magaca Bukaanka</th>
+                                            <th>Da'da</th>
+                                            <th>Jinsiga</th>
+                                            <th>Lambarka Telefoonka</th>
+                                            <th>Cinwaanka</th>
+                                            <th class="text-center">Falalka (Actions)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="patientsTableBody">
+                                        <!-- Dynamically loaded -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="noPatientsMessage" class="empty-state" style="display: none;">
+                                <i class="fa-solid fa-user-slash empty-icon"></i>
+                                <h3>Ma jiro bukaan la helay</h3>
+                                <p>Ma jirto xog bukaan oo waafaqsan waxaad raadinayso ama wali bukaan lama diiwaangelin.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 3. DHAKHAATIIRTA (DOCTORS) SECTION -->
+                <section id="doctorsSection" class="content-section">
+                    <div class="section-header-banner">
+                        <div>
+                            <h2>Qaybta Dhakhaatiirta</h2>
+                            <p>Kala baro dhakhaatiirta aqoonta sare leh ee isbitaalka iyo takhasusyadooda kala duwan.</p>
+                        </div>
+                        <div class="doctor-badge-info">
+                            <span class="badge-total-doctors"><i class="fa-solid fa-stethoscope"></i> Dhakhaatiirta: <strong id="doctorsBadgeCount">0</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Doctors Filter Pills -->
+                    <div class="filter-pills" id="doctorsFilterPills">
+                        <button class="filter-pill active" data-filter="all">Dhammaan Dhakhaatiirta</button>
+                        <button class="filter-pill" data-filter="Guud">Dhakhtarka Guud</button>
+                        <button class="filter-pill" data-filter="Carruurta">Dhakhtarka Carruurta</button>
+                        <button class="filter-pill" data-filter="Wadnaha">Dhakhtarka Wadnaha</button>
+                        <button class="filter-pill" data-filter="Haweenka">Dhakhtarka Haweenka</button>
+                        <button class="filter-pill" data-filter="Lafaha">Dhakhtarka Lafaha</button>
+                    </div>
+
+                    <!-- Doctors Grid Cards -->
+                    <div class="doctors-grid" id="doctorsGridContainer">
+                        <!-- Loaded dynamically from script.js -->
+                    </div>
+                </section>
+
+
+                <!-- 4. BALLAMAHA (APPOINTMENTS) SECTION -->
+                <section id="appointmentsSection" class="content-section">
+                    <div class="section-header-banner">
+                        <div>
+                            <h2>Qabsashada & Jadwalka Ballamaha</h2>
+                            <p>U qabo ballan bukaan cusub ama jira, kormeer ballamaha soo socda iyo kuwa dhacay.</p>
+                        </div>
+                        <button id="btnToggleAppointmentForm" class="btn btn-success">
+                            <i class="fa-solid fa-calendar-plus"></i> Qabso Ballan Cusub
+                        </button>
+                    </div>
+
+                    <!-- Appointment Booking Form Card -->
+                    <div id="appointmentFormContainer" class="form-container-box">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-calendar-plus text-success"></i>
+                                    <h4>Foomka Qabsashada Ballanta</h4>
+                                </div>
+                                <button type="button" class="btn-close-form" id="btnCloseAppointmentForm" title="Xir foomka">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <form id="appointmentForm" novalidate>
+                                    <div class="form-grid">
+                                        <!-- Magaca Bukaanka -->
+                                        <div class="form-group">
+                                            <label for="appointmentPatientName" class="form-label required">
+                                                <i class="fa-solid fa-user"></i> Magaca Bukaanka
+                                            </label>
+                                            <input type="text" id="appointmentPatientName" list="patientListDatalist" class="form-control" placeholder="Qor magaca ama ka dooro liiska bukaannada..." required>
+                                            <datalist id="patientListDatalist">
+                                                <!-- Populated by JS -->
+                                            </datalist>
+                                            <span class="error-msg" id="appointmentPatientNameError"></span>
+                                        </div>
+
+                                        <!-- Dhakhtarka la dooranayo -->
+                                        <div class="form-group">
+                                            <label for="appointmentDoctorSelect" class="form-label required">
+                                                <i class="fa-solid fa-user-doctor"></i> Dhakhtarka la Dooranayo
+                                            </label>
+                                            <select id="appointmentDoctorSelect" class="form-control" required>
+                                                <option value="">-- Dooro Dhakhtarka --</option>
+                                                <!-- Populated dynamically by JS -->
+                                            </select>
+                                            <span class="error-msg" id="appointmentDoctorError"></span>
+                                        </div>
+
+                                        <!-- Taariikhda Ballanta -->
+                                        <div class="form-group">
+                                            <label for="appointmentDate" class="form-label required">
+                                                <i class="fa-regular fa-calendar"></i> Taariikhda Ballanta
+                                            </label>
+                                            <input type="date" id="appointmentDate" class="form-control" required>
+                                            <span class="error-msg" id="appointmentDateError"></span>
+                                        </div>
+
+                                        <!-- Saacadda Ballanta -->
+                                        <div class="form-group">
+                                            <label for="appointmentTime" class="form-label required">
+                                                <i class="fa-regular fa-clock"></i> Saacadda Ballanta
+                                            </label>
+                                            <input type="time" id="appointmentTime" class="form-control" required>
+                                            <span class="error-msg" id="appointmentTimeError"></span>
+                                        </div>
+
+                                        <!-- Sababta Ballanta -->
+                                        <div class="form-group full-width">
+                                            <label for="appointmentReason" class="form-label required">
+                                                <i class="fa-solid fa-notes-medical"></i> Sababta Ballanta
+                                            </label>
+                                            <input type="text" id="appointmentReason" class="form-control" placeholder="Tusaale: Baaritaan caafimaad oo guud, xanuun feedhaha ah..." required>
+                                            <span class="error-msg" id="appointmentReasonError"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" id="btnSubmitAppointment" class="btn btn-success btn-lg">
+                                            <i class="fa-solid fa-calendar-check"></i> Qabso Ballanta
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointments Table Card -->
+                    <div class="card mt-4">
+                        <div class="card-header flex-between flex-wrap">
+                            <div class="card-header-title">
+                                <i class="fa-solid fa-calendar-days text-success"></i>
+                                <h4>Liiska Ballamaha La Qabsaday (<span id="appointmentsCountBadge">0</span>)</h4>
+                            </div>
+
+                            <div class="filter-status-box">
+                                <label for="filterAppointmentStatus"><i class="fa-solid fa-filter"></i> Xaaladda: </label>
+                                <select id="filterAppointmentStatus" class="form-select-sm">
+                                    <option value="all">Dhammaan</option>
+                                    <option value="Sugaya">Sugaya</option>
+                                    <option value="La Xaqiijiyey">La Xaqiijiyey</option>
+                                    <option value="Dhameystiran">Dhameystiran</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table" id="appointmentsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Magaca Bukaanka</th>
+                                            <th>Dhakhtarka</th>
+                                            <th>Taariikhda</th>
+                                            <th>Saacadda</th>
+                                            <th>Sababta Ballanta</th>
+                                            <th>Xaaladda</th>
+                                            <th class="text-center">Falalka</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="appointmentsTableBody">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="noAppointmentsMessage" class="empty-state" style="display: none;">
+                                <i class="fa-regular fa-calendar-xmark empty-icon"></i>
+                                <h3>Ma jiraan ballamo la helay</h3>
+                                <p>Wali lama diiwaangelin wax ballan ah ama liisku waa madhan yahay.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 5. QAYBAHA ISBITAALKA (DEPARTMENTS) SECTION -->
+                <section id="departmentsSection" class="content-section">
+                    <div class="section-header-banner">
+                        <div>
+                            <h2>Qaybaha & Waaxyaha Isbitaalka</h2>
+                            <p>Dulmar ku saabsan waaxyaha kala duwan ee Isbitaalka Rajada, qolalka iyo adeegyadooda.</p>
+                        </div>
+                        <div class="dept-badge-info">
+                            <span class="badge-total-dept"><i class="fa-solid fa-hospital"></i> Waaxyaha: <strong id="departmentsBadgeCount">0</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Departments Cards Grid -->
+                    <div class="departments-grid" id="departmentsGridContainer">
+                        <!-- Populated by script.js -->
+                    </div>
+                </section>
+
+
+                <!-- 6. LACAG-BIXINTA BUKAANKA (PATIENT BILLING & PAYMENTS) SECTION -->
+                <section id="billingSection" class="content-section">
+                    <div class="section-header-banner">
+                        <div>
+                            <h2>Maamulka Lacag-bixinta Bukaanka</h2>
+                            <p>Diiwaangeli lacag-bixin cusub, soo saar rasiid rasmi ah, oo kormeer lacagaha soo xarooday.</p>
+                        </div>
+                        <button id="btnToggleBillingForm" class="btn btn-warning">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Diiwaangeli Lacag-bixin Cusub
+                        </button>
+                    </div>
+
+                    <!-- Billing Form Card -->
+                    <div id="billingFormContainer" class="form-container-box">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-receipt text-warning"></i>
+                                    <h4 id="billingFormTitle">Foomka Diiwaangelinta Lacag-bixinta</h4>
+                                </div>
+                                <button type="button" class="btn-close-form" id="btnCloseBillingForm" title="Xir foomka">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <form id="billingForm" novalidate>
+                                    <input type="hidden" id="billingEditId">
+
+                                    <div class="form-grid">
+                                        <!-- Magaca Bukaanka -->
+                                        <div class="form-group">
+                                            <label for="billingPatientName" class="form-label required">
+                                                <i class="fa-solid fa-user"></i> Magaca Bukaanka
+                                            </label>
+                                            <input type="text" id="billingPatientName" list="patientListDatalist" class="form-control" placeholder="Qor magaca ama ka dooro bukaan jira..." required>
+                                            <span class="error-msg" id="billingPatientNameError"></span>
+                                        </div>
+
+                                        <!-- Adeegga Caafimaadka -->
+                                        <div class="form-group">
+                                            <label for="billingServiceSelect" class="form-label required">
+                                                <i class="fa-solid fa-stethoscope"></i> Adeegga Caafimaadka ee la qabtay
+                                            </label>
+                                            <select id="billingServiceSelect" class="form-control" required>
+                                                <option value="">-- Dooro Nooca Adeegga --</option>
+                                                <option value="Baaris Guud" data-price="20">Baaris Caafimaad oo Guud ($20)</option>
+                                                <option value="Baaritaanka Wadnaha" data-price="50">Baaritaanka Wadnaha & ECG ($50)</option>
+                                                <option value="Daryeelka Carruurta" data-price="25">Daryeelka Carruurta ($25)</option>
+                                                <option value="Dhalmada & Haweenka" data-price="120">Dhalmada & Xannaanada Hooyada ($120)</option>
+                                                <option value="Qalliinka Lafaha" data-price="350">Qalliinka & Kabidda Lafaha ($350)</option>
+                                                <option value="Baaritaan Shaybaar" data-price="30">Baaritaan Shaybaar & Dhiig ($30)</option>
+                                                <option value="Jiifka Sariirta" data-price="80">Jiifka Sariirta & Daweynta ($80)</option>
+                                                <option value="Degdegga (Emergency)" data-price="40">Qaybta Degdegga ah ($40)</option>
+                                                <option value="Adeeg Kale" data-price="0">Adeeg Kale oo Gaar ah...</option>
+                                            </select>
+                                            <span class="error-msg" id="billingServiceError"></span>
+                                        </div>
+
+                                        <!-- Qadarka Lacagta -->
+                                        <div class="form-group">
+                                            <label for="billingAmount" class="form-label required">
+                                                <i class="fa-solid fa-dollar-sign"></i> Qadarka Lacagta ($ USD)
+                                            </label>
+                                            <input type="number" id="billingAmount" class="form-control" placeholder="Tusaale: 25.00" min="1" step="0.5" required>
+                                            <span class="error-msg" id="billingAmountError"></span>
+                                        </div>
+
+                                        <!-- Habka Lacag-bixinta -->
+                                        <div class="form-group">
+                                            <label for="billingMethod" class="form-label required">
+                                                <i class="fa-solid fa-wallet"></i> Habka Lacag-bixinta
+                                            </label>
+                                            <select id="billingMethod" class="form-control" required>
+                                                <option value="EVC Plus">EVC Plus (Hormuud)</option>
+                                                <option value="Kaash (Cash)">Kaash (Cash)</option>
+                                                <option value="Zaad Service">Zaad Service (Telesom)</option>
+                                                <option value="Sahal Service">Sahal Service (Golis)</option>
+                                                <option value="Kaadhka Bangiga">Kaadhka Bangiga (Mastercard / Visa)</option>
+                                            </select>
+                                            <span class="error-msg" id="billingMethodError"></span>
+                                        </div>
+
+                                        <!-- Taariikhda Bixinta -->
+                                        <div class="form-group">
+                                            <label for="billingDate" class="form-label required">
+                                                <i class="fa-regular fa-calendar"></i> Taariikhda Bixinta
+                                            </label>
+                                            <input type="date" id="billingDate" class="form-control" required>
+                                            <span class="error-msg" id="billingDateError"></span>
+                                        </div>
+
+                                        <!-- Xaaladda Lacagta -->
+                                        <div class="form-group">
+                                            <label for="billingStatus" class="form-label required">
+                                                <i class="fa-solid fa-circle-check"></i> Xaaladda Lacag-bixinta
+                                            </label>
+                                            <select id="billingStatus" class="form-control" required>
+                                                <option value="La Bixiyey">La Bixiyey (Paid)</option>
+                                                <option value="Sugaya">Sugaya / Qabyo (Pending)</option>
+                                            </select>
+                                            <span class="error-msg" id="billingStatusError"></span>
+                                        </div>
+
+                                        <!-- Faahfaahin / Qoraal Dheeraad ah -->
+                                        <div class="form-group full-width">
+                                            <label for="billingNotes" class="form-label">
+                                                <i class="fa-solid fa-note-sticky"></i> Faahfaahin Dheeraad ah (Ikhtiyaari)
+                                            </label>
+                                            <input type="text" id="billingNotes" class="form-control" placeholder="Tusaale: Rasiid #EVC-837482 ama faahfaahinta daawooyinka...">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" id="btnSubmitBilling" class="btn btn-warning btn-lg">
+                                            <i class="fa-solid fa-floppy-disk"></i> Diiwaangeli Lacag-bixinta
+                                        </button>
+                                        <button type="button" id="btnCancelBillingEdit" class="btn btn-secondary btn-lg" style="display: none;">
+                                            <i class="fa-solid fa-xmark"></i> Ka Noqo
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Billings Table Card -->
+                    <div class="card mt-4">
+                        <div class="card-header flex-between flex-wrap">
+                            <div class="card-header-title">
+                                <i class="fa-solid fa-file-invoice-dollar text-warning"></i>
+                                <h4>Liiska Biilasha & Lacag-bixinta Bukaannada (<span id="billingCountBadge">0</span>)</h4>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <div class="search-box">
+                                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                    <input type="text" id="billingSearchInput" class="search-input" placeholder="Ku raadi Bukaanka ama #Rasiid...">
+                                </div>
+                                <div class="filter-status-box">
+                                    <select id="filterBillingStatus" class="form-select-sm">
+                                        <option value="all">Dhammaan Xaaladaha</option>
+                                        <option value="La Bixiyey">La Bixiyey</option>
+                                        <option value="Sugaya">Sugaya (Qabyo)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table" id="billingsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#Rasiid</th>
+                                            <th>Magaca Bukaanka</th>
+                                            <th>Adeegga la Qabtay</th>
+                                            <th>Qadarka ($)</th>
+                                            <th>Habka Bixinta</th>
+                                            <th>Taariikhda</th>
+                                            <th>Xaaladda</th>
+                                            <th class="text-center">Falalka</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="billingsTableBody">
+                                        <!-- Dynamically loaded -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="noBillingsMessage" class="empty-state" style="display: none;">
+                                <i class="fa-solid fa-file-invoice empty-icon"></i>
+                                <h3>Ma jiro biil ama lacag-bixin la helay</h3>
+                                <p>Wali lama diiwaangelin wax lacag-bixin ah ama raadintaadu wax natiijo ah ma keenin.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 7. MUSHAHARKA DHAKHAATIIRTA (DOCTOR PAYROLL) SECTION -->
+                <section id="payrollSection" class="content-section">
+                    <div class="section-header-banner">
+                        <div>
+                            <h2>Mushahar Qaadashada Dhakhaatiirta</h2>
+                            <p>Maamul mushaharka bisha, gunnooyinka, iyo rasiidhada lacag-qaadashada dhakhaatiirta isbitaalka.</p>
+                        </div>
+                        <button id="btnToggleSalaryForm" class="btn btn-primary">
+                            <i class="fa-solid fa-money-bill-wave"></i> Bixi Mushahar Cusub
+                        </button>
+                    </div>
+
+                    <!-- Salary Form Card -->
+                    <div id="salaryFormContainer" class="form-container-box">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-hand-holding-dollar text-primary"></i>
+                                    <h4 id="salaryFormTitle">Foomka Bixinta Mushaharka Dhakhtarka</h4>
+                                </div>
+                                <button type="button" class="btn-close-form" id="btnCloseSalaryForm" title="Xir foomka">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <form id="salaryForm" novalidate>
+                                    <input type="hidden" id="salaryEditId">
+
+                                    <div class="form-grid">
+                                        <!-- Dhakhtarka -->
+                                        <div class="form-group">
+                                            <label for="salaryDoctorSelect" class="form-label required">
+                                                <i class="fa-solid fa-user-doctor"></i> Dhakhtarka la siinayo mushaharka
+                                            </label>
+                                            <select id="salaryDoctorSelect" class="form-control" required>
+                                                <option value="">-- Dooro Dhakhtarka --</option>
+                                                <!-- Dynamically populated -->
+                                            </select>
+                                            <span class="error-msg" id="salaryDoctorError"></span>
+                                        </div>
+
+                                        <!-- Bisha Mushaharka -->
+                                        <div class="form-group">
+                                            <label for="salaryMonth" class="form-label required">
+                                                <i class="fa-regular fa-calendar-check"></i> Bisha & Sanadka
+                                            </label>
+                                            <select id="salaryMonth" class="form-control" required>
+                                                <option value="Oktoobar 2026">Oktoobar 2026</option>
+                                                <option value="Sebtembar 2026">Sebtembar 2026</option>
+                                                <option value="Ogosto 2026">Ogosto 2026</option>
+                                                <option value="Nofembar 2026">Nofembar 2026</option>
+                                                <option value="Diseembar 2026">Diseembar 2026</option>
+                                            </select>
+                                            <span class="error-msg" id="salaryMonthError"></span>
+                                        </div>
+
+                                        <!-- Mushaharka Aasaasiga ah -->
+                                        <div class="form-group">
+                                            <label for="salaryBaseAmount" class="form-label required">
+                                                <i class="fa-solid fa-dollar-sign"></i> Mushaharka Aasaasiga ah ($ USD)
+                                            </label>
+                                            <input type="number" id="salaryBaseAmount" class="form-control" placeholder="Tusaale: 1200" min="100" required>
+                                            <span class="error-msg" id="salaryBaseAmountError"></span>
+                                        </div>
+
+                                        <!-- Gunno / Hawlkarimo -->
+                                        <div class="form-group">
+                                            <label for="salaryBonusAmount" class="form-label">
+                                                <i class="fa-solid fa-gift"></i> Gunno / Hawlkarimo ($ USD)
+                                            </label>
+                                            <input type="number" id="salaryBonusAmount" class="form-control" placeholder="Tusaale: 150" min="0" value="0">
+                                            <span class="error-msg" id="salaryBonusAmountError"></span>
+                                        </div>
+
+                                        <!-- Wadarta Guud (Auto-calculated) -->
+                                        <div class="form-group">
+                                            <label for="salaryTotalCalculated" class="form-label">
+                                                <i class="fa-solid fa-calculator"></i> Wadarta Guud ee Mushaharka ($ USD)
+                                            </label>
+                                            <input type="text" id="salaryTotalCalculated" class="form-control" readonly style="font-weight: 700; background-color: #f1f5f9; color: var(--primary-dark);">
+                                        </div>
+
+                                        <!-- Habka Bixinta -->
+                                        <div class="form-group">
+                                            <label for="salaryPaymentMethod" class="form-label required">
+                                                <i class="fa-solid fa-money-check-dollar"></i> Habka Bixinta
+                                            </label>
+                                            <select id="salaryPaymentMethod" class="form-control" required>
+                                                <option value="Xawaalad Bangi (Salaam / Premier)">Xawaalad Bangi (Salaam / Premier)</option>
+                                                <option value="EVC Plus">EVC Plus (Hormuud)</option>
+                                                <option value="Kaash (Cash)">Kaash (Cash)</option>
+                                                <option value="Zaad Service">Zaad Service</option>
+                                            </select>
+                                            <span class="error-msg" id="salaryPaymentMethodError"></span>
+                                        </div>
+
+                                        <!-- Taariikhda Bixinta -->
+                                        <div class="form-group">
+                                            <label for="salaryDate" class="form-label required">
+                                                <i class="fa-regular fa-calendar"></i> Taariikhda Bixinta
+                                            </label>
+                                            <input type="date" id="salaryDate" class="form-control" required>
+                                            <span class="error-msg" id="salaryDateError"></span>
+                                        </div>
+
+                                        <!-- Xaaladda -->
+                                        <div class="form-group">
+                                            <label for="salaryStatus" class="form-label required">
+                                                <i class="fa-solid fa-circle-check"></i> Xaaladda Mushaharka
+                                            </label>
+                                            <select id="salaryStatus" class="form-control" required>
+                                                <option value="La Bixiyay">La Bixiyay (Paid)</option>
+                                                <option value="Sugaya">Sugaya (Pending)</option>
+                                            </select>
+                                            <span class="error-msg" id="salaryStatusError"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" id="btnSubmitSalary" class="btn btn-primary btn-lg">
+                                            <i class="fa-solid fa-money-bill-transfer"></i> Xaqiiji Bixinta Mushaharka
+                                        </button>
+                                        <button type="button" id="btnCancelSalaryEdit" class="btn btn-secondary btn-lg" style="display: none;">
+                                            <i class="fa-solid fa-xmark"></i> Ka Noqo
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Salary Table Card -->
+                    <div class="card mt-4">
+                        <div class="card-header flex-between flex-wrap">
+                            <div class="card-header-title">
+                                <i class="fa-solid fa-money-bill-wave text-primary"></i>
+                                <h4>Taariikhda Mushaharka Dhakhaatiirta (<span id="salariesCountBadge">0</span>)</h4>
+                            </div>
+
+                            <div class="filter-status-box">
+                                <label for="filterSalaryStatus"><i class="fa-solid fa-filter"></i> Xaaladda: </label>
+                                <select id="filterSalaryStatus" class="form-select-sm">
+                                    <option value="all">Dhammaan</option>
+                                    <option value="La Bixiyay">La Bixiyay</option>
+                                    <option value="Sugaya">Sugaya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table" id="salariesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Magaca Dhakhtarka</th>
+                                            <th>Bisha</th>
+                                            <th>Mushaharka Guud</th>
+                                            <th>Habka Bixinta</th>
+                                            <th>Taariikhda</th>
+                                            <th>Xaaladda</th>
+                                            <th class="text-center">Falalka</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="salariesTableBody">
+                                        <!-- Dynamically loaded -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="noSalariesMessage" class="empty-state" style="display: none;">
+                                <i class="fa-solid fa-hand-holding-dollar empty-icon"></i>
+                                <h3>Ma jiro mushahar la diiwaangeliyey</h3>
+                                <p>Wali lama diiwaangelin wax mushahar ah oo la bixiyey.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 8. XISAABAADKA & DAKHLIGA ISBITAALKA (HOSPITAL FINANCIAL OVERVIEW) SECTION -->
+                <section id="financeSection" class="content-section">
+                    <div class="section-header-banner">
+                        <div>
+                            <h2>Xisaabaadka & Dakhliga Isbitaalka</h2>
+                            <p>Ogow dakhliga guud ee isbitaalka kasoo xarooday, kharashaadka baxay, iyo faa'iidada saafiga ah.</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline" onclick="window.print()">
+                                <i class="fa-solid fa-print"></i> Daabac Warbixinta Maaliyadda
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Explanatory Guide Card: Sidee ku ogaan kartaa in isbitaalka lacagta kasoo xarooto -->
+                    <div class="card mb-4 guide-card">
+                        <div class="guide-header">
+                            <div class="guide-icon">
+                                <i class="fa-solid fa-lightbulb"></i>
+                            </div>
+                            <div class="guide-text">
+                                <h4>Sidee ku ogaan kartaa in isbitaalka lacagta kasoo xarooto?</h4>
+                                <p>Nidaamkani wuxuu si toos ah u xisaabiyaa dakhliga soo gala isbitaalka iyo kharashaadka baxa iyadoo la raacayo saddexda heer ee xisaabaadka caafimaadka:</p>
+                            </div>
+                        </div>
+                        <div class="guide-steps-grid">
+                            <div class="guide-step">
+                                <span class="step-num">1</span>
+                                <h5>Dakhliga Soo Xarooda (Inflow)</h5>
+                                <p>Waa wadarta lacagaha ay bukaannadu ku bixiyaan adeegyada sida baarista, daaweynta, qalliinka, shaybaarka iyo sariiraha jiifka.</p>
+                            </div>
+                            <div class="guide-step">
+                                <span class="step-num">2</span>
+                                <h5>Kharashka Baxa (Outflow)</h5>
+                                <p>Waa lacagaha laga bixiyo isbitaalka, oo ay ugu weyn tahay mushaharaadka bilaha ah iyo gunnooyinka la siiyo dhakhaatiirta.</p>
+                            </div>
+                            <div class="guide-step">
+                                <span class="step-num">3</span>
+                                <h5>Faa'iidada Saafiga ah (Net Profit)</h5>
+                                <p>Waxaa lagu helaa: <code>Dakhli - Kharash</code>. Haddii tiro togan (+) tahay isbitaalku waa faa'iido, haddii kalena waa khasaare.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 Big Financial Metric Cards -->
+                    <div class="finance-metrics-grid mb-4">
+                        <div class="finance-card card-revenue">
+                            <div class="f-card-header">
+                                <span>WADARTA DAKHLIGA SOO XAROODAY</span>
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </div>
+                            <h2 id="financeTotalRevenue">$0.00</h2>
+                            <p class="f-card-desc"><i class="fa-solid fa-circle-check"></i> Lacagta bukaannadu tooska u bixiyeen</p>
+                        </div>
+
+                        <div class="finance-card card-expenses">
+                            <div class="f-card-header">
+                                <span>WADARTA KHARASHKA BAXAY</span>
+                                <i class="fa-solid fa-arrow-trend-down"></i>
+                            </div>
+                            <h2 id="financeTotalExpenses">$0.00</h2>
+                            <p class="f-card-desc"><i class="fa-solid fa-user-doctor"></i> Mushaharka dhakhaatiirta la bixiyey</p>
+                        </div>
+
+                        <div class="finance-card card-profit" id="financeProfitCard">
+                            <div class="f-card-header">
+                                <span>FAA'IIDADA SAAFIGA AH (NET PROFIT)</span>
+                                <i class="fa-solid fa-scale-balanced" id="financeProfitIcon"></i>
+                            </div>
+                            <h2 id="financeNetProfit">$0.00</h2>
+                            <p class="f-card-desc" id="financeProfitDescription">Xisaabinta hadda</p>
+                        </div>
+
+                        <div class="finance-card card-pending">
+                            <div class="f-card-header">
+                                <span>LACAGAHA QABYADA AH (DEBTS)</span>
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </div>
+                            <h2 id="financePendingReceivables">$0.00</h2>
+                            <p class="f-card-desc"><i class="fa-solid fa-triangle-exclamation"></i> Lacagaha bukaannada laga rabo</p>
+                        </div>
+                    </div>
+
+                    <!-- Financial Analytics Split (Revenue by Service & Payment Methods) -->
+                    <div class="finance-analytics-grid">
+                        
+                        <!-- Revenue by Service Breakdown -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-chart-pie text-primary"></i>
+                                    <h4>Dakhliga Ku Saleysan Adeegyada Caafimaadka</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-3" style="font-size: 0.85rem;">Halkan ka eeg adeegyada lacagta ugu badan ay isbitaalka kasoo xarooto:</p>
+                                <div id="serviceBreakdownContainer" class="service-breakdown-list">
+                                    <!-- Populated dynamically by script.js -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Revenue by Payment Methods -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-title">
+                                    <i class="fa-solid fa-wallet text-success"></i>
+                                    <h4>Dakhliga Ku Saleysan Hababka Bixinta</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-3" style="font-size: 0.85rem;">Hababka lacagaha lagu bixiyay (EVC Plus, Kaash, Bangi, iwm.):</p>
+                                <div id="methodBreakdownContainer" class="method-breakdown-list">
+                                    <!-- Populated dynamically by script.js -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- FOOTER -->
+            <footer class="app-footer">
+                <p>&copy; 2026 <strong>Isbitaalka Rajada</strong> — Hospital Management System. Xuquuqda oo dhan way dhowran tahay.</p>
+                <p class="footer-note"><i class="fa-solid fa-circle-info"></i> Project waxbarasho oo tusaale ah (Af-Soomaali).</p>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- MODAL: DELETE CONFIRMATION -->
+    <div id="deleteConfirmModal" class="modal-backdrop">
+        <div class="modal-box">
+            <div class="modal-icon warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="modal-title" id="deleteModalTitle">Hubin Tirtirid</h3>
+            <p class="modal-description" id="deleteModalMessage">Ma hubtaa inaad tirtirto xogtan? Ficilkan dib looma soo celin karo.</p>
+            <div class="modal-buttons">
+                <button id="btnConfirmDelete" class="btn btn-danger">Haa, Tirtir</button>
+                <button id="btnCancelDelete" class="btn btn-outline">Ka Noqo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PATIENT BILLING RECEIPT (RASIIDKA BUKAANKA) -->
+    <div id="receiptModal" class="modal-backdrop">
+        <div class="modal-box modal-receipt-box">
+            <button class="btn-close-modal" onclick="closeReceiptModal()" title="Xir"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="printableReceiptArea" class="receipt-content">
+                <div class="receipt-header">
+                    <div class="receipt-brand">
+                        <i class="fa-solid fa-hospital-user"></i>
+                        <div>
+                            <h3>Isbitaalka Rajada</h3>
+                            <small>Hospital Management System — Waaxda Maaliyadda</small>
+                        </div>
+                    </div>
+                    <div class="receipt-meta">
+                        <span class="receipt-tag">RASIID RASMI AH</span>
+                        <strong id="receiptNumber">#INV-0000</strong>
+                    </div>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <div class="receipt-info-grid">
+                    <div>
+                        <small>Bukaanka:</small>
+                        <strong id="receiptPatientName">Axmed Maxamed</strong>
+                    </div>
+                    <div>
+                        <small>Taariikhda:</small>
+                        <strong id="receiptDate">2026-10-24</strong>
+                    </div>
+                    <div>
+                        <small>Habka Bixinta:</small>
+                        <strong id="receiptMethod">EVC Plus</strong>
+                    </div>
+                    <div>
+                        <small>Xaaladda:</small>
+                        <span id="receiptStatusBadge" class="badge badge-status-xaqiijiyey">La Bixiyey</span>
+                    </div>
+                </div>
+
+                <div class="receipt-table-box">
+                    <table class="receipt-table">
+                        <thead>
+                            <tr>
+                                <th>Adeegga Caafimaadka</th>
+                                <th class="text-right">Qadarka</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="receiptService">Baaris Caafimaad oo Guud</td>
+                                <td class="text-right" id="receiptSubtotal">$20.00</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Wadarta Guud:</th>
+                                <th class="text-right receipt-total-price" id="receiptTotal">$20.00</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="receipt-footer">
+                    <div class="receipt-stamp">
+                        <i class="fa-solid fa-stamp"></i>
+                        <span>LACAGTU WAA LA BIXIYAY</span>
+                    </div>
+                    <div class="receipt-signature">
+                        <div class="signature-line"></div>
+                        <small>Saxiixa Qasnajiga (Cashier)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receipt-action-buttons">
+                <button class="btn btn-primary" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Daabac Rasiidka
+                </button>
+                <button class="btn btn-secondary" onclick="closeReceiptModal()">
+                    <i class="fa-solid fa-xmark"></i> Xir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DOCTOR SALARY PAY SLIP (WARAAQDA MUSHAHARKA) -->
+    <div id="salarySlipModal" class="modal-backdrop">
+        <div class="modal-box modal-receipt-box">
+            <button class="btn-close-modal" onclick="closeSalarySlipModal()" title="Xir"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="printableSalarySlipArea" class="receipt-content">
+                <div class="receipt-header">
+                    <div class="receipt-brand">
+                        <i class="fa-solid fa-hospital-user"></i>
+                        <div>
+                            <h3>Isbitaalka Rajada</h3>
+                            <small>Waraaqda Lacag-bixinta Mushaharka (Pay Slip)</small>
+                        </div>
+                    </div>
+                    <div class="receipt-meta">
+                        <span class="receipt-tag" style="background-color: var(--primary-subtle); color: var(--primary);">PAY SLIP</span>
+                        <strong id="slipId">#SAL-0000</strong>
+                    </div>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <div class="receipt-info-grid">
+                    <div>
+                        <small>Dhakhtarka:</small>
+                        <strong id="slipDoctorName">Dr. Axmed Cabdi</strong>
+                    </div>
+                    <div>
+                        <small>Bisha Mushaharka:</small>
+                        <strong id="slipMonth">Oktoobar 2026</strong>
+                    </div>
+                    <div>
+                        <small>Habka Bixinta:</small>
+                        <strong id="slipMethod">Xawaalad Bangi</strong>
+                    </div>
+                    <div>
+                        <small>Taariikhda:</small>
+                        <strong id="slipDate">2026-10-24</strong>
+                    </div>
+                </div>
+
+                <div class="receipt-table-box">
+                    <table class="receipt-table">
+                        <thead>
+                            <tr>
+                                <th>Faahfaahinta Mushaharka</th>
+                                <th class="text-right">Qadarka</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mushaharka Aasaasiga ah (Base Salary)</td>
+                                <td class="text-right" id="slipBaseAmount">$1,200.00</td>
+                            </tr>
+                            <tr>
+                                <td>Gunno / Hawlkarimo (Bonus/Allowance)</td>
+                                <td class="text-right" id="slipBonusAmount">$150.00</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Wadarta La Bixiyay:</th>
+                                <th class="text-right receipt-total-price" id="slipTotalAmount">$1,350.00</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="receipt-footer">
+                    <div class="receipt-stamp" style="border-color: var(--primary); color: var(--primary);">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <span>MUSHAHARKU WAA LA BIXIYAY</span>
+                    </div>
+                    <div class="receipt-signature">
+                        <div class="signature-line"></div>
+                        <small>Saxiixa Maamulka Guud</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="receipt-action-buttons">
+                <button class="btn btn-primary" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Daabac Waraaqda Mushaharka
+                </button>
+                <button class="btn btn-secondary" onclick="closeSalarySlipModal()">
+                    <i class="fa-solid fa-xmark"></i> Xir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FILE -->
+    <script src="script.js"></script>
+</body>
+</html>
